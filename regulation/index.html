@@ -75,6 +75,8 @@
     nav {
       position: sticky;
       top: 18px;
+      max-height: calc(100vh - 36px);
+      overflow-y: auto;
       padding: 18px;
       border: 1px solid var(--line);
       border-radius: 20px;
@@ -84,7 +86,12 @@
     nav strong { display: block; margin: 0 8px 10px; font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; }
     nav a { display: block; padding: 9px 10px; border-radius: 10px; color: #37413d; font-size: 14px; text-decoration: none; }
     nav a:hover { color: var(--green); background: var(--green-soft); }
+    .nav-group { margin-bottom: 3px; }
+    .nav-main { font-weight: 700; }
+    .nav-sub { display: grid; gap: 1px; margin: -3px 0 5px 11px; padding-left: 9px; border-left: 1px solid var(--line); }
+    nav .nav-sub a { padding: 4px 8px; color: var(--muted); font-size: 12px; line-height: 1.3; }
     .content { min-width: 0; }
+    [id] { scroll-margin-top: 22px; }
     section {
       scroll-margin-top: 22px;
       margin-bottom: 22px;
@@ -138,9 +145,11 @@
     @media (max-width: 850px) {
       .hero { padding: 34px 26px; }
       .body-grid { grid-template-columns: 1fr; }
-      nav { position: static; display: flex; gap: 4px; overflow-x: auto; }
+      nav { position: static; display: flex; gap: 4px; max-height: none; overflow-x: auto; overflow-y: hidden; }
       nav strong { display: none; }
       nav a { white-space: nowrap; }
+      .nav-group { flex: 0 0 auto; margin: 0; padding-right: 5px; border-right: 1px solid var(--line); }
+      .nav-sub { margin-left: 10px; }
       .cards, .checklist { grid-template-columns: 1fr; }
     }
     @media (max-width: 520px) {
@@ -170,22 +179,80 @@
     <div class="body-grid">
       <nav aria-label="Навигация по справочнику">
         <strong>Содержание</strong>
-        <a href="#start">С чего начать</a>
-        <a href="#common">Общие правила</a>
-        <a href="#npm">НПМ</a>
-        <a href="#vpm">ВПМ</a>
-        <a href="#lighting">Освещение</a>
-        <a href="#collisions">Коллизии</a>
-        <a href="#metadata">GeoJSON</a>
-        <a href="#naming">Именование</a>
-        <a href="#sintez-check">Проверка SINTEZ</a>
-        <a href="#finish">Перед сдачей</a>
+        <div class="nav-group">
+          <a class="nav-main" href="#start">С чего начать</a>
+          <div class="nav-sub"><a href="#model-types">Выбор типа модели</a></div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#common">Общие правила</a>
+          <div class="nav-sub">
+            <a href="#common-basics">Масштаб и формат</a>
+            <a href="#common-geometry">Геометрия и координаты</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#npm">НПМ</a>
+          <div class="nav-sub">
+            <a href="#npm-files">Архив и лимиты</a>
+            <a href="#npm-textures">Текстуры</a>
+            <a href="#npm-glass">Стекло</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#vpm">ВПМ</a>
+          <div class="nav-sub">
+            <a href="#vpm-files">Архив и состав</a>
+            <a href="#vpm-ground">Благоустройство</a>
+            <a href="#vpm-textures">Текстуры и материалы</a>
+            <a href="#vpm-uv">UV и UDIM</a>
+            <a href="#vpm-scene">Сцена и точки отсчёта</a>
+            <a href="#vpm-texel">Плотность текселя</a>
+            <a href="#vpm-windows">Окна</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#lighting">Освещение</a>
+          <div class="nav-sub"><a href="#lighting">Источники и расстояния</a></div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#collisions">Коллизии</a>
+          <div class="nav-sub">
+            <a href="#collisions">Требования</a>
+            <a href="#collision-script">Скрипт</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#metadata">GeoJSON</a>
+          <div class="nav-sub">
+            <a href="#metadata-rules">Поля и координаты</a>
+            <a href="#geojson-generator">Генератор</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#naming">Именование</a>
+          <div class="nav-sub">
+            <a href="#naming-rules">Общие правила</a>
+            <a href="#naming-examples">Примеры</a>
+            <a href="#naming-masks">Дополнительные маски</a>
+          </div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#sintez-check">Проверка SINTEZ</a>
+          <div class="nav-sub"><a href="#sintez-addon">Аддон</a></div>
+        </div>
+        <div class="nav-group">
+          <a class="nav-main" href="#finish">Перед сдачей</a>
+          <div class="nav-sub">
+            <a href="#finish-steps">Порядок проверки</a>
+            <a href="#finish-checklist">Чек-лист</a>
+          </div>
+        </div>
       </nav>
 
       <main class="content">
         <section id="start">
           <div class="section-head"><div><span class="tag all">Логика документа</span><h2>Сначала определите тип модели</h2></div></div>
-          <div class="cards">
+          <div class="cards" id="model-types">
             <article class="card"><h3>НПМ</h3><p>Оптимизированная модель для информационных систем. Небольшие лимиты геометрии, текстуры встроены в FBX, один общий ZIP проекта.</p></article>
             <article class="card"><h3>ВПМ</h3><p>Детализированная модель. Отдельные ZIP для ОКС и благоустройства, внешние текстуры, обязательный GeoJSON и геометрия коллизии.</p></article>
           </div>
@@ -194,19 +261,19 @@
 
         <section id="common">
           <div class="section-head"><div><span class="tag all">Для НПМ и ВПМ</span><h2>Общие обязательные правила</h2></div></div>
-          <div class="cards">
+          <div class="cards" id="common-basics">
             <article class="card"><h3>Масштаб и единицы</h3><p>Масштаб <strong>1:1</strong>. Одна единица сцены равна одному метру. Используется метрическая система.</p></article>
             <article class="card"><h3>Формат</h3><p>Геометрия передаётся в <strong>FBX 7.4 / FBX 2014 Binary</strong>. Архивы не должны содержать битых или нечитаемых файлов.</p></article>
             <article class="card"><h3>Соответствие проекту</h3><p>Форма, размеры, материалы и состав должны соответствовать буклету, визуализациям и проектной документации.</p></article>
             <article class="card"><h3>Чистая сцена</h3><p>Удалите камеры, анимацию, кости, частицы, звук, пустые объекты, лишние слои, людей, транспорт и элементы вне АГР.</p></article>
-            <article class="card"><h3>Геометрия</h3><p>Перед экспортом триангулируйте модель, примените трансформации, проверьте нормали, дубликаты, самопересечения и нулевые рёбра.</p></article>
+            <article class="card" id="common-geometry"><h3>Геометрия</h3><p>Перед экспортом триангулируйте модель, примените трансформации, проверьте нормали, дубликаты, самопересечения и нулевые рёбра.</p></article>
             <article class="card"><h3>Координаты</h3><p>Модель должна иметь реальную плановую и высотную привязку в системе координат Москвы. Условные координаты недопустимы.</p></article>
           </div>
         </section>
 
         <section id="npm">
           <div class="section-head"><div><span class="tag npm">НПМ</span><h2>Низкополигональная модель</h2></div></div>
-          <div class="cards">
+          <div class="cards" id="npm-files">
             <article class="card"><h3>Архив</h3><p>Один <strong>ZIP до 1 ГБ</strong>. Внутри от <strong>2 до 21 FBX</strong>: обязательное благоустройство и до 20 файлов ОКС.</p></article>
             <article class="card"><h3>Лимиты геометрии</h3><p>До <strong>150 000</strong> треугольников на ОКС с кровлей в одном FBX. Благоустройство, его элементы и растительность вместе — до <strong>180 000</strong>.</p></article>
             <article class="card"><h3>Разделение</h3><p>Делить ОКС на несколько FBX можно только при превышении лимита, по корпусам, секциям, строениям или стилобатам. Нумерация остаётся сквозной.</p></article>
@@ -214,7 +281,7 @@
             <article class="card"><h3>Объекты ОКС</h3><p>В одном FBX ОКС допускается суммарно до <strong>40 объектов</strong>: до 20 объектов основной геометрии и до 20 объектов полупрозрачных деталей.</p></article>
             <article class="card"><h3>Наборы благоустройства</h3><p>Для благоустройства допускается до <strong>22 текстурных наборов</strong>: до 20 для основы территории, один общий для МАФ и один общий для растительности.</p></article>
           </div>
-          <h3>Текстуры НПМ</h3>
+          <h3 id="npm-textures">Текстуры НПМ</h3>
           <ul class="list">
             <li>PNG-атласы <strong>встраиваются в FBX</strong>.</li>
             <li>Допустимые размеры: 256, 512, 1024 или 2048 пикселей по стороне; вес одной карты — до 3 МБ.</li>
@@ -224,7 +291,7 @@
             <li>Один текстурный набор на ОКС; второй допустим для эксплуатируемой кровли. Для всех МАФ — один набор до 512×512, для всей растительности — один набор до 2048×2048.</li>
             <li>Плотность текстуры рельефа участка: от 10 до 40 пикселей на квадратный метр.</li>
           </ul>
-          <h3>Стекло НПМ</h3>
+          <h3 id="npm-glass">Стекло НПМ</h3>
           <ul class="list">
             <li>Стекло можно реализовать текстурами в составе основной геометрии либо выделить в отдельный полупрозрачный объект; оба способа допускается сочетать в одном проекте.</li>
             <li>При текстурном способе обязательны карты шероховатости и металличности. При отдельной геометрии материал не содержит текстурных карт, а прозрачность задаётся значением <strong>50%</strong>.</li>
@@ -235,13 +302,13 @@
 
         <section id="vpm">
           <div class="section-head"><div><span class="tag vpm">ВПМ</span><h2>Высокополигональная модель</h2></div></div>
-          <div class="cards">
+          <div class="cards" id="vpm-files">
             <article class="card"><h3>Архивы</h3><p>Каждый ОКС передаётся отдельным ZIP до <strong>500 МБ</strong>. Благоустройство — отдельным ZIP до <strong>1 ГБ</strong>.</p></article>
             <article class="card"><h3>Состав ZIP</h3><p>Основной FBX, FBX освещения при наличии, GeoJSON и от <strong>3 до 2100 PNG</strong>. Текстуры лежат отдельно, не внутри FBX.</p></article>
             <article class="card"><h3>ОКС</h3><p>Каждое отдельно стоящее здание, корпус, строение и стилобат формируется отдельной моделью вместе с эксплуатируемой кровлей.</p></article>
             <article class="card"><h3>Лимит ОКС</h3><p>До <strong>1 000 000</strong> треугольников на модель ОКС с кровлей, без учёта геометрии коллизии.</p></article>
           </div>
-          <h3>Лимит благоустройства ВПМ</h3>
+          <h3 id="vpm-ground">Лимит благоустройства ВПМ</h3>
           <div class="table-wrap">
             <table>
               <thead><tr><th>Площадь без пятна застройки</th><th>Максимум треугольников</th></tr></thead>
@@ -257,7 +324,7 @@
               </tbody>
             </table>
           </div>
-          <h3>Текстуры и материалы ВПМ</h3>
+          <h3 id="vpm-textures">Текстуры и материалы ВПМ</h3>
           <ul class="list vpm-list">
             <li>PNG-текстуры предоставляются отдельно от FBX. Разрешение только <strong>2048×2048</strong> или <strong>4096×4096</strong>.</li>
             <li>Обязательны диффузная карта, ERM и карта нормалей. ERM и нормали — без альфа-канала; нормали подготавливаются по DirectX.</li>
@@ -268,7 +335,7 @@
             <li>Если объекту требуется более <strong>100 UDIM-карт</strong>, назначается следующий материал. Номера материалов идут последовательно от 1 до 7.</li>
             <li>Перед передачей удаляются все пути к текстурным картам в материалах.</li>
           </ul>
-          <h3>UV, UDIM и текстурные заглушки</h3>
+          <h3 id="vpm-uv">UV, UDIM и текстурные заглушки</h3>
           <ul class="list vpm-list">
             <li>Развёртка фасадов и Ground выполняется в одном экземпляре и на одном UV-канале. UDIM-плитки идут с <strong>1001</strong> без пропусков по сетке 10×10.</li>
             <li>UV-острова нельзя зеркалить; необходимо соблюдать отступы от границ плитки и не допускать видимых швов и несостыковок текстуры.</li>
@@ -278,19 +345,19 @@
             <li>Декоративные элементы, выступающие или углублённые до <strong>5 см</strong>, запекаются в текстуру. Исключение — бордюрные выступы.</li>
             <li>Сквозные отверстия задаются в альфа-канале диффузной карты: значения <code>0–127</code> обозначают пустоту, <code>128–255</code> — видимую часть.</li>
           </ul>
-          <h3>Сцена и точки отсчёта ВПМ</h3>
+          <h3 id="vpm-scene">Сцена и точки отсчёта ВПМ</h3>
           <ul class="list vpm-list">
             <li>После применения трансформаций поворот всех объектов должен быть <strong>0°</strong>, а точка отсчёта общего содержимого FBX — находиться в мировом нуле.</li>
             <li>Все объекты внутри одного FBX должны иметь согласованные координаты точек отсчёта. Стекло, основная геометрия и другие части совмещаются относительно одной точки.</li>
             <li>Полигоны по внешнему периметру ОКС и благоустройства выдавливаются вниз минимум на <strong>1 м</strong>; для Ground используются текстурные заглушки обобщённого цвета.</li>
             <li>Закрытые дворики под открытым небом, ниши, уличная мебель, клумбы и другие предусмотренные проектом элементы благоустройства сохраняются.</li>
           </ul>
-          <h3>Плотность текселя ВПМ</h3>
+          <h3 id="vpm-texel">Плотность текселя ВПМ</h3>
           <ul class="list vpm-list">
             <li>Требование применяется к диффузным картам: допустимая плотность — от <strong>512 до 1706 px/м</strong>. На ERM, карты нормалей и текстурные заглушки этот диапазон не распространяется.</li>
             <li>Расчёт: <code>плотность текселя = сторона текстуры в пикселях / длина соответствующей стороны полигона в метрах</code>. Для карт с альфа-каналом рекомендуется выбирать значение ближе к верхней границе диапазона.</li>
           </ul>
-          <h3>Окна и светопрозрачные конструкции</h3>
+          <h3 id="vpm-windows">Окна и светопрозрачные конструкции</h3>
           <ul class="list vpm-list">
             <li>Все окна и другие светопрозрачные конструкции одной модели объединяются в отдельный объект геометрии. Текстурные карты в их материалах не используются; для разных визуальных свойств допускается до 7 материалов.</li>
             <li>UV-развёртка выполняется в единственном экземпляре, на одном канале и целиком в плитке <strong>1001</strong>. Острова должны максимально заполнять плитку с отступом от границ; их наложение друг на друга допускается.</li>
@@ -316,13 +383,13 @@
             <li>Коллизия лестницы у входной группы выполняется в форме усечённой пирамиды.</li>
             <li>Если модель меньше 50 000 треугольников, лимит коллизии — 15 000. Для остальных — 5% от числа треугольников модели, максимум дополнительно до 100 000.</li>
           </ul>
-          <p><strong>При разработке коллизий используйте скрипт по ссылке:</strong></p>
+          <p id="collision-script"><strong>При разработке коллизий используйте скрипт по ссылке:</strong></p>
           <a class="tool-link" href="https://disk.yandex.ru/d/7zjHNGecvLpjkw" target="_blank" rel="noopener">Скачать скрипт для коллизий ↗</a>
         </section>
 
         <section id="metadata">
           <div class="section-head"><div><span class="tag vpm">Только ВПМ</span><h2>GeoJSON и метаданные</h2></div></div>
-          <ul class="list vpm-list">
+          <ul class="list vpm-list" id="metadata-rules">
             <li>Файл должен строго повторять заданную структуру, названия полей и синтаксис. Менять можно значения, но не имена полей.</li>
             <li>Кодировка — <strong>UTF-8</strong>. Дробная часть чисел отделяется точкой.</li>
             <li>Для ОКС почти все поля обязательны: адрес, округ, район, название, застройщик, проектировщик, кадастровые номера, площади, высоты и другие характеристики.</li>
@@ -330,19 +397,19 @@
             <li>Поисковое изображение объекта: JPG 256×256, помещённый в GeoJSON как Base64.</li>
             <li>Свойства стеклянных материалов описываются отдельно: цвет RGB, прозрачность, преломление, шероховатость и металличность.</li>
           </ul>
-          <a class="tool-link" href="https://sintez.space/generator_script#geojsonName" target="_blank" rel="noopener">Открыть генератор GeoJSON ↗</a>
+          <a class="tool-link" id="geojson-generator" href="https://sintez.space/generator_script#geojsonName" target="_blank" rel="noopener">Открыть генератор GeoJSON ↗</a>
         </section>
 
         <section id="naming">
           <div class="section-head"><div><span class="tag all">Для всех файлов</span><h2>Именование без ошибок</h2></div></div>
-          <div class="cards">
+          <div class="cards" id="naming-rules">
             <article class="card"><h3>Разрешённые символы</h3><p>Только латиница, цифры и нижнее подчёркивание. Пробелы и другие специальные символы запрещены.</p></article>
             <article class="card"><h3>Длина</h3><p>Полное имя с адресом, префиксами, суффиксами и номером — не более <strong>254 символов</strong>.</p></article>
             <article class="card"><h3>Адрес</h3><p>Адрес переводится в установленную латинскую маску. Части разделяются символом <code>_</code>; двоеточия кадастрового номера также заменяются на <code>_</code>.</p></article>
             <article class="card"><h3>Последовательность</h3><p>Номера файлов, объектов и материалов идут подряд, без пропусков. При разделении модели нумерация не начинается заново.</p></article>
           </div>
           <p><strong>Смысл суффиксов:</strong> имя должно однозначно показывать, что перед нами ОКС, благоустройство, стекло, МАФ, растительность, коллизия, освещение, материал или конкретный тип текстуры. Не придумывайте собственную схему.</p>
-          <div class="examples">
+          <div class="examples" id="naming-examples">
             <article class="example">
               <h3>Пример 1. Есть точный адрес</h3>
               <p>Исходные данные: <strong>Проезд Нансена, уч. 8</strong>. Слово «улица» опускается, но другие типы элементов, например «Проезд», сохраняются. Пробелы и знаки заменяются по маске.</p>
@@ -376,7 +443,7 @@
               </div>
             </article>
           </div>
-          <h3>Дополнительные маски нейминга</h3>
+          <h3 id="naming-masks">Дополнительные маски нейминга</h3>
           <div class="name-lines">
             <div class="name-line"><span>НПМ Ground FBX</span><code>0313_Address_Ground.fbx</code></div>
             <div class="name-line"><span>НПМ Ground</span><code>SM_Address_Ground</code></div>
@@ -394,14 +461,14 @@
 
         <section id="sintez-check">
           <div class="section-head"><div><span class="tag all">Последняя итерация</span><h2>Финальная проверка через аддон SINTEZ</h2></div></div>
-          <div class="critical"><strong>Перед передачей обязательно проверьте подготовленную модель через аддон SINTEZ.</strong> Устраните найденные ошибки и только после этого формируйте итоговый комплект.</div>
+          <div class="critical" id="sintez-addon"><strong>Перед передачей обязательно проверьте подготовленную модель через аддон SINTEZ.</strong> Устраните найденные ошибки и только после этого формируйте итоговый комплект.</div>
           <p><strong>Текущая версия аддона:</strong> позднее ссылка будет заменена на более новую.</p>
           <a class="tool-link" href="https://disk.yandex.ru/d/ceKgP7O7r5uUvA" target="_blank" rel="noopener">Скачать аддон SINTEZ ↗</a>
         </section>
 
         <section id="finish">
           <div class="section-head"><div><span class="tag all">Финальный контроль</span><h2>Порядок проверки перед сдачей</h2></div></div>
-          <div class="flow">
+          <div class="flow" id="finish-steps">
             <article><h3>Откройте каждый архив заново</h3><p>Проверьте состав, размер, читаемость файлов и отсутствие резервных копий.</p></article>
             <article><h3>Откройте FBX на чистой сцене</h3><p>Убедитесь, что материалы, текстуры, координаты, масштаб и ориентация сохранились.</p></article>
             <article><h3>Осмотрите модель со всех сторон</h3><p>Проверьте нормали, пропавшие полигоны, мерцание поверхностей, стекло и видимые внутренние участки.</p></article>
@@ -409,7 +476,7 @@
             <article><h3>Проверьте технические лимиты</h3><p>Количество полигонов, материалов, текстур, разрешения и размеры архивов не должны превышать допустимые значения.</p></article>
             <article><h3>Проверьте имена и метаданные</h3><p>Никаких пробелов, кириллицы и пропущенных номеров; для ВПМ GeoJSON должен проходить синтаксическую проверку.</p></article>
           </div>
-          <h3>Короткий чек-лист</h3>
+          <h3 id="finish-checklist">Короткий чек-лист</h3>
           <div class="checklist">
             <div class="check">Масштаб 1:1, метры</div>
             <div class="check">FBX 7.4 Binary</div>
