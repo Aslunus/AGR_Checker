@@ -200,6 +200,7 @@
             <a href="#npm-district-code">Код района</a>
             <a href="#npm-textures">Текстуры</a>
             <a href="#npm-glass">Стекло</a>
+            <a href="#npm-naming">Нейминг НПМ</a>
           </div>
         </div>
         <div class="nav-group">
@@ -212,6 +213,7 @@
             <a href="#vpm-scene">Сцена и точки отсчёта</a>
             <a href="#vpm-texel">Плотность текселя</a>
             <a href="#vpm-windows">Окна</a>
+            <a href="#vpm-naming">Нейминг ВПМ</a>
           </div>
         </div>
         <div class="nav-group">
@@ -230,14 +232,6 @@
           <div class="nav-sub">
             <a href="#metadata-rules">Поля и координаты</a>
             <a href="#geojson-generator">Генератор</a>
-          </div>
-        </div>
-        <div class="nav-group">
-          <a class="nav-main" href="#naming">Именование</a>
-          <div class="nav-sub">
-            <a href="#naming-rules">Общие правила</a>
-            <a href="#naming-examples">Примеры</a>
-            <a href="#naming-masks">Дополнительные маски</a>
           </div>
         </div>
         <div class="nav-group">
@@ -317,6 +311,42 @@
             <li>При текстурном способе обязательны карты шероховатости и металличности. При отдельной геометрии материал не содержит текстурных карт, а прозрачность задаётся значением <strong>50%</strong>.</li>
             <li>Окна, не просматриваемые с обратной стороны, выполняются плоскими, без толщины. Упрощённые стены, пол и потолок сохраняются там, где интерьер виден через стекло.</li>
           </ul>
+          <h3 id="npm-naming">Именование НПМ</h3>
+          <ul class="list">
+            <li>Используются только латиница, цифры и нижнее подчёркивание; полное имя не должно превышать <strong>254 символа</strong>.</li>
+            <li>ZIP получает четырёхзначный код территориальной единицы и адресную маску. FBX ОКС дополнительно получает двухзначный номер от <code>01</code> до <code>20</code>.</li>
+            <li>Нумерация ОКС остаётся сквозной во всём проекте и не начинается заново при разделении модели на несколько FBX.</li>
+          </ul>
+          <div class="examples">
+            <article class="example">
+              <h3>НПМ: точный адрес</h3>
+              <div class="name-lines">
+                <div class="name-line"><span>Address</span><code>ProezdNansena_Uch_8</code></div>
+                <div class="name-line"><span>ZIP НПМ</span><code>0313_ProezdNansena_Uch_8.zip</code></div>
+                <div class="name-line"><span>FBX НПМ</span><code>0313_ProezdNansena_Uch_8_01.fbx</code></div>
+                <div class="name-line"><span>Геометрия</span><code>SM_ProezdNansena_Uch_8_001_Main</code></div>
+                <div class="name-line"><span>Стекло ОКС</span><code>SM_ProezdNansena_Uch_8_001_MainGlass</code></div>
+              </div>
+            </article>
+            <article class="example">
+              <h3>НПМ: точного адреса нет</h3>
+              <div class="name-lines">
+                <div class="name-line"><span>Address</span><code>77_02_0015007_4157_K_7</code></div>
+                <div class="name-line"><span>ZIP НПМ</span><code>0313_77_02_0015007_4157_K_7.zip</code></div>
+                <div class="name-line"><span>FBX НПМ</span><code>0313_77_02_0015007_4157_K_7_01.fbx</code></div>
+                <div class="name-line"><span>Геометрия</span><code>SM_77_02_0015007_4157_K_7_001_Main</code></div>
+                <div class="name-line"><span>Стекло ОКС</span><code>SM_77_02_0015007_4157_K_7_001_MainGlass</code></div>
+              </div>
+            </article>
+          </div>
+          <div class="name-lines">
+            <div class="name-line"><span>Ground FBX</span><code>0313_Address_Ground.fbx</code></div>
+            <div class="name-line"><span>Ground</span><code>SM_Address_Ground</code></div>
+            <div class="name-line"><span>Элемент</span><code>SM_Address_Ground_El</code></div>
+            <div class="name-line"><span>Растительность</span><code>SM_Address_Flora</code></div>
+            <div class="name-line"><span>Материал стекла</span><code>M_Glass_01</code></div>
+          </div>
+          <div class="notice"><strong>Префикс <code>0313</code> показан как пример.</strong> Используйте фактический четырёхзначный код территориальной единицы из таблицы ОМК ТЕ.</div>
           <div class="critical"><strong>Благоустройство обязательно.</strong> Оно не является дополнительным файлом «по желанию» и не включает объекты на эксплуатируемой кровле ОКС.</div>
         </section>
 
@@ -388,7 +418,8 @@
           <ul class="list vpm-list">
             <li>Все окна и другие светопрозрачные конструкции одной модели объединяются в отдельный объект геометрии. Текстурные карты в их материалах не используются; для разных визуальных свойств допускается до 7 материалов.</li>
             <li>UV-развёртка выполняется в единственном экземпляре, на одном канале и целиком в плитке <strong>1001</strong>. Острова должны максимально заполнять плитку с отступом от границ; их наложение друг на друга допускается.</li>
-            <li>Масштаб развёртки окон определяйте по самому крупному полигону, сохраняя пропорциональный масштаб остальных элементов.</li>
+            <li>Все UV-острова окон должны быть ориентированы в одну сторону.</li>
+            <li>Для всех окон используется единая плотность текселя. Её определяют по самому крупному полигону и сохраняют пропорциональный масштаб остальных элементов.</li>
             <li>Окна, которые нельзя увидеть с обратной стороны, выполняются плоскими, без толщины. Если через одно окно просматривается обратная сторона другого, например в угловой комнате, полигон дублируется со смещением <strong>0,003–0,01 м</strong> и разворотом нормали.</li>
           </ul>
           <h3 id="lighting">Источники освещения</h3>
@@ -413,6 +444,65 @@
           </ul>
           <p id="collision-script"><strong>При разработке коллизий используйте скрипт по ссылке:</strong></p>
           <a class="tool-link" href="https://disk.yandex.ru/d/7zjHNGecvLpjkw" target="_blank" rel="noopener">Скачать скрипт для коллизий ↗</a>
+          <h3 id="vpm-naming">Именование ВПМ</h3>
+          <ul class="list vpm-list">
+            <li>Используются только латинские буквы, цифры и нижнее подчёркивание. Полное имя — не более <strong>254 символов</strong>.</li>
+            <li>Для каждого ОКС используется уникальный трёхзначный номер начиная с <code>001</code>. Нумерация объектов, материалов и файлов идёт последовательно, без пропусков.</li>
+            <li><strong>ZIP и GeoJSON должны повторять базовое имя соответствующего основного FBX.</strong> Отличается только расширение файла.</li>
+            <li>Если точного адреса нет, в маске используется кадастровый номер: двоеточия заменяются нижним подчёркиванием.</li>
+          </ul>
+          <div class="examples">
+            <article class="example">
+              <h3>ВПМ: точный адрес</h3>
+              <div class="name-lines">
+                <div class="name-line"><span>Address</span><code>ProezdNansena_Uch_8_001</code></div>
+                <div class="name-line"><span>ZIP ВПМ</span><code>SM_ProezdNansena_Uch_8_001.zip</code></div>
+                <div class="name-line"><span>FBX ВПМ</span><code>SM_ProezdNansena_Uch_8_001.fbx</code></div>
+                <div class="name-line"><span>GeoJSON</span><code>SM_ProezdNansena_Uch_8_001.geojson</code></div>
+                <div class="name-line"><span>Геометрия</span><code>SM_ProezdNansena_Uch_8_001_Main</code></div>
+                <div class="name-line"><span>Root света</span><code>ProezdNansena_Uch_8_001_Root</code></div>
+                <div class="name-line"><span>Omni света</span><code>ProezdNansena_Uch_8_001_Omni_001</code></div>
+                <div class="name-line"><span>Spot света</span><code>ProezdNansena_Uch_8_001_Spot_001</code></div>
+              </div>
+            </article>
+            <article class="example">
+              <h3>ВПМ: точного адреса нет</h3>
+              <div class="name-lines">
+                <div class="name-line"><span>Address</span><code>77_02_0015007_4157_K_7_001</code></div>
+                <div class="name-line"><span>ZIP ВПМ</span><code>SM_77_02_0015007_4157_K_7_001.zip</code></div>
+                <div class="name-line"><span>FBX ВПМ</span><code>SM_77_02_0015007_4157_K_7_001.fbx</code></div>
+                <div class="name-line"><span>GeoJSON</span><code>SM_77_02_0015007_4157_K_7_001.geojson</code></div>
+                <div class="name-line"><span>Геометрия</span><code>SM_77_02_0015007_4157_K_7_001_Main</code></div>
+                <div class="name-line"><span>Root света</span><code>77_02_0015007_4157_K_7_001_Root</code></div>
+                <div class="name-line"><span>Omni света</span><code>77_02_0015007_4157_K_7_001_Omni_001</code></div>
+                <div class="name-line"><span>Spot света</span><code>77_02_0015007_4157_K_7_001_Spot_001</code></div>
+              </div>
+            </article>
+          </div>
+          <div class="name-lines">
+            <div class="name-line"><span>ZIP ОКС</span><code>SM_Address.zip</code></div>
+            <div class="name-line"><span>FBX ОКС</span><code>SM_Address.fbx</code></div>
+            <div class="name-line"><span>GeoJSON ОКС</span><code>SM_Address.geojson</code></div>
+            <div class="name-line"><span>ZIP Ground</span><code>SM_Address_Ground.zip</code></div>
+            <div class="name-line"><span>FBX Ground</span><code>SM_Address_Ground.fbx</code></div>
+            <div class="name-line"><span>GeoJSON Ground</span><code>SM_Address_Ground.geojson</code></div>
+            <div class="name-line"><span>FBX света ОКС</span><code>SM_Address_Light.fbx</code></div>
+            <div class="name-line"><span>FBX света Ground</span><code>SM_Address_Ground_Light.fbx</code></div>
+            <div class="name-line"><span>Стекло ОКС</span><code>SM_Address_MainGlass</code></div>
+            <div class="name-line"><span>Стекло Ground</span><code>SM_Address_GroundGlass</code></div>
+            <div class="name-line"><span>Материал ОКС</span><code>M_Address_Main_1</code></div>
+            <div class="name-line"><span>Материал стекла ОКС</span><code>M_Address_MainGlass_1</code></div>
+            <div class="name-line"><span>Материал Ground</span><code>M_Address_Ground_1</code></div>
+            <div class="name-line"><span>Материал стекла Ground</span><code>M_Address_GroundGlass_1</code></div>
+            <div class="name-line"><span>Текстура ОКС</span><code>T_Address_Diffuse_1.1001.png</code></div>
+            <div class="name-line"><span>Текстура Ground</span><code>T_Address_Ground_Diffuse_1.1001.png</code></div>
+            <div class="name-line"><span>Коллизия ОКС</span><code>UCX_SM_Address_Main_001</code></div>
+            <div class="name-line"><span>Коллизия Ground</span><code>UCX_SM_Address_Ground_001</code></div>
+            <div class="name-line"><span>Root света Ground</span><code>Address_Ground_Root</code></div>
+            <div class="name-line"><span>Omni света Ground</span><code>Address_Ground_Omni_001</code></div>
+            <div class="name-line"><span>Spot света Ground</span><code>Address_Ground_Spot_001</code></div>
+          </div>
+          <div class="notice"><code>Address</code> в масках ВПМ включает адрес или кадастровый номер и уникальный номер ОКС, например <code>ProezdNansena_Uch_8_001</code>.</div>
         </section>
 
         <section id="metadata">
@@ -434,76 +524,6 @@
           </ul>
           <a class="tool-link" id="geojson-generator" href="https://sintez.space/generator_script#geojsonName" target="_blank" rel="noopener">Открыть генератор GeoJSON ↗</a>
           <a class="tool-link" href="https://wgs-msk.soilbox.app" target="_blank" rel="noopener">Найти и проверить координаты ↗</a>
-        </section>
-
-        <section id="naming">
-          <div class="section-head"><div><span class="tag all">Для всех файлов</span><h2>Именование без ошибок</h2></div></div>
-          <div class="cards" id="naming-rules">
-            <article class="card"><h3>Разрешённые символы</h3><p>Только латиница, цифры и нижнее подчёркивание. Пробелы и другие специальные символы запрещены.</p></article>
-            <article class="card"><h3>Длина</h3><p>Полное имя с адресом, префиксами, суффиксами и номером — не более <strong>254 символов</strong>.</p></article>
-            <article class="card"><h3>Адрес</h3><p>Адрес переводится в установленную латинскую маску. Части разделяются символом <code>_</code>; двоеточия кадастрового номера также заменяются на <code>_</code>.</p></article>
-            <article class="card"><h3>Последовательность</h3><p>Номера файлов, объектов и материалов идут подряд, без пропусков. При разделении модели нумерация не начинается заново.</p></article>
-          </div>
-          <p><strong>Смысл суффиксов:</strong> имя должно однозначно показывать, что перед нами ОКС, благоустройство, стекло, МАФ, растительность, коллизия, освещение, материал или конкретный тип текстуры. Не придумывайте собственную схему.</p>
-          <div class="examples" id="naming-examples">
-            <article class="example">
-              <h3>Пример 1. Есть точный адрес</h3>
-              <p>Исходные данные: <strong>Проезд Нансена, уч. 8</strong>. Слово «улица» опускается, но другие типы элементов, например «Проезд», сохраняются. Пробелы и знаки заменяются по маске.</p>
-              <div class="name-lines">
-                <div class="name-line"><span>Address</span><code>ProezdNansena_Uch_8</code></div>
-                <div class="name-line"><span>ZIP НПМ</span><code>0313_ProezdNansena_Uch_8.zip</code></div>
-                <div class="name-line"><span>FBX НПМ</span><code>0313_ProezdNansena_Uch_8_01.fbx</code></div>
-                <div class="name-line"><span>FBX ВПМ</span><code>SM_ProezdNansena_Uch_8_001.fbx</code></div>
-                <div class="name-line"><span>Геометрия</span><code>SM_ProezdNansena_Uch_8_001_Main</code></div>
-                <div class="name-line"><span>Root света</span><code>ProezdNansena_Uch_8_001_Root</code></div>
-                <div class="name-line"><span>Omni света</span><code>ProezdNansena_Uch_8_001_Omni_001</code></div>
-                <div class="name-line"><span>Spot света</span><code>ProezdNansena_Uch_8_001_Spot_001</code></div>
-                <div class="name-line"><span>Материал</span><code>M_ProezdNansena_Uch_8_001_Main_1</code></div>
-                <div class="name-line"><span>Диффузная</span><code>T_ProezdNansena_Uch_8_001_Main_d_1.png</code></div>
-              </div>
-            </article>
-            <article class="example">
-              <h3>Пример 2. Точного адреса нет</h3>
-              <p>Используется кадастровый номер участка <strong>77:02:0015007:4157</strong>. Двоеточия заменяются нижним подчёркиванием. Если нужно различить корпус 7, добавляется <code>K_7</code>.</p>
-              <div class="name-lines">
-                <div class="name-line"><span>Address</span><code>77_02_0015007_4157_K_7</code></div>
-                <div class="name-line"><span>ZIP НПМ</span><code>0313_77_02_0015007_4157_K_7.zip</code></div>
-                <div class="name-line"><span>FBX НПМ</span><code>0313_77_02_0015007_4157_K_7_01.fbx</code></div>
-                <div class="name-line"><span>FBX ВПМ</span><code>SM_77_02_0015007_4157_K_7_001.fbx</code></div>
-                <div class="name-line"><span>Геометрия</span><code>SM_77_02_0015007_4157_K_7_001_Main</code></div>
-                <div class="name-line"><span>Root света</span><code>77_02_0015007_4157_K_7_001_Root</code></div>
-                <div class="name-line"><span>Omni света</span><code>77_02_0015007_4157_K_7_001_Omni_001</code></div>
-                <div class="name-line"><span>Spot света</span><code>77_02_0015007_4157_K_7_001_Spot_001</code></div>
-                <div class="name-line"><span>Материал</span><code>M_77_02_0015007_4157_K_7_001_Main_1</code></div>
-                <div class="name-line"><span>Диффузная</span><code>T_77_02_0015007_4157_K_7_001_Main_d_1.png</code></div>
-              </div>
-            </article>
-          </div>
-          <h3 id="naming-masks">Дополнительные маски нейминга</h3>
-          <div class="name-lines">
-            <div class="name-line"><span>НПМ Ground FBX</span><code>0313_Address_Ground.fbx</code></div>
-            <div class="name-line"><span>НПМ Ground</span><code>SM_Address_Ground</code></div>
-            <div class="name-line"><span>НПМ элемент</span><code>SM_Address_Ground_El</code></div>
-            <div class="name-line"><span>НПМ растительность</span><code>SM_Address_Flora</code></div>
-            <div class="name-line"><span>НПМ стекло ОКС</span><code>SM_Address_001_MainGlass</code></div>
-            <div class="name-line"><span>НПМ материал стекла</span><code>M_Glass_01</code></div>
-            <div class="name-line"><span>ВПМ FBX света ОКС</span><code>SM_Address_Light.fbx</code></div>
-            <div class="name-line"><span>ВПМ FBX света Ground</span><code>SM_Address_Ground_Light.fbx</code></div>
-            <div class="name-line"><span>ВПМ стекло ОКС</span><code>SM_Address_MainGlass</code></div>
-            <div class="name-line"><span>ВПМ стекло Ground</span><code>SM_Address_GroundGlass</code></div>
-            <div class="name-line"><span>Материал ОКС</span><code>M_Address_Main_1</code></div>
-            <div class="name-line"><span>Материал стекла ОКС</span><code>M_Address_MainGlass_1</code></div>
-            <div class="name-line"><span>Материал Ground</span><code>M_Address_Ground_1</code></div>
-            <div class="name-line"><span>Материал стекла Ground</span><code>M_Address_GroundGlass_1</code></div>
-            <div class="name-line"><span>Текстура ОКС ВПМ</span><code>T_Address_Diffuse_1.1001.png</code></div>
-            <div class="name-line"><span>Текстура Ground ВПМ</span><code>T_Address_Ground_Diffuse_1.1001.png</code></div>
-            <div class="name-line"><span>Коллизия ОКС</span><code>UCX_SM_Address_Main_001</code></div>
-            <div class="name-line"><span>Коллизия Ground</span><code>UCX_SM_Address_Ground_001</code></div>
-            <div class="name-line"><span>Root света Ground</span><code>Address_Ground_Root</code></div>
-            <div class="name-line"><span>Omni света Ground</span><code>Address_Ground_Omni_001</code></div>
-            <div class="name-line"><span>Spot света Ground</span><code>Address_Ground_Spot_001</code></div>
-          </div>
-          <div class="notice"><strong>Префикс <code>0313</code> здесь показан как пример из схемы.</strong> В рабочем комплекте используйте фактический четырёхзначный код территориальной единицы. Для ВПМ ZIP и GeoJSON повторяют маску имени соответствующего FBX; конкретные суффиксы зависят от типа объекта.</div>
         </section>
 
         <section id="sintez-check">
